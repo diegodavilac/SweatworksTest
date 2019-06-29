@@ -35,7 +35,7 @@ class UserListAdapter(val listener: (User) -> Unit) : RecyclerView.Adapter<UserL
     class UserViewHolder(view : View): RecyclerView.ViewHolder(view){
         fun bind(user : User , listener: (User) -> Unit) = with(itemView){
 
-            itemView.card.setOnClickListener { listener }
+            itemView.card.setOnClickListener { listener(user) }
 
             val requestOptions = RequestOptions()
             requestOptions.placeholder(R.drawable.ic_broken_image)

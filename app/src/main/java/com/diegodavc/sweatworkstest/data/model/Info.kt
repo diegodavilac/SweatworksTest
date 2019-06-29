@@ -1,6 +1,6 @@
 package com.diegodavc.sweatworkstest.data.model
 
-class Info (seed : String,
-            results: Int,
-            page : Int,
-            version : String)
+class Info (val seed : String,
+            val results: Int,
+            val page : Int,
+            val version : String)
