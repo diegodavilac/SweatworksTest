@@ -2,10 +2,37 @@ package com.diegodavc.sweatworkstest.data.local
 
 import com.diegodavc.sweatworkstest.data.UserDataSource
 import com.diegodavc.sweatworkstest.data.model.User
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
+
 class UserLocalDataSource (val userDAO: UserDAO): UserDataSource{
+
+    override fun isSavedUser(email: String, callback: UserDataSource.LoadSavedUsersCallback) {
+        userDAO.isSavedUser(email)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSuccess { if (it.isEmpty())
+                    callback.onDataNotAvailable()
+                else
+                    callback.onUsersLoaded(it)
+            }
+            .subscribe()
+    }
+
+    override fun getSuggestions(query: String, callback: UserDataSource.LoadSuggestionCallback) {
+        Single.just(query)
+            .subscribeOn(Schedulers.io())
+            .map {
+                userDAO.getUsers(query)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSuccess {
+                callback.onUsersLoaded(it)
+            }
+            .subscribe()
+    }
 
     override fun getSavedUsers(callback: UserDataSource.LoadSavedUsersCallback) {
         userDAO.getAllUsers()

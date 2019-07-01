@@ -2,7 +2,7 @@ package com.diegodavc.sweatworkstest.data.network
 
 
 import com.diegodavc.sweatworkstest.BuildConfig
-import com.google.gson.Gson
+import com.diegodavc.sweatworkstest.data.model.User
 import com.google.gson.GsonBuilder
 import io.reactivex.schedulers.Schedulers
 import java.io.IOException
@@ -22,12 +22,14 @@ class RequestManager() {
     private var retrofit: Retrofit
 
     init {
-        retrofit = generateRerofit()
+        retrofit = generateRetrofit()
         defaultRequestManager = retrofit.create(Services::class.java)
     }
 
-    private fun generateRerofit(): Retrofit {
-        val gson = GsonBuilder().create()
+    private fun generateRetrofit(): Retrofit {
+        val gson = GsonBuilder()
+            .create()
+
         var client = getOkHttpClient()
 
         var builder = Retrofit.Builder()

@@ -1,11 +1,13 @@
 package com.diegodavc.sweatworkstest.utils
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.request.RequestOptions
 import com.diegodavc.sweatworkstest.R
 import kotlinx.android.synthetic.main.activity_user_detail.*

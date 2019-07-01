@@ -7,12 +7,20 @@ import com.diegodavc.sweatworkstest.data.network.Services
 import com.diegodavc.sweatworkstest.data.network.UserRemoteDataSource
 
 class UserRepository(
-    private val userDAO: UserDAO,
-    private val services: Services
+     userDAO: UserDAO,
+     services: Services
 ) : UserDataSource {
 
     private val localDataSource: UserLocalDataSource = UserLocalDataSource(userDAO)
     private val remoteDataSource: UserRemoteDataSource = UserRemoteDataSource(services)
+
+    override fun isSavedUser(email: String, callback: UserDataSource.LoadSavedUsersCallback) {
+        localDataSource.isSavedUser(email, callback)
+    }
+
+    override fun getSuggestions(query: String, callback: UserDataSource.LoadSuggestionCallback) {
+        localDataSource.getSuggestions(query, callback)
+    }
 
     override fun getSavedUsers(callback: UserDataSource.LoadSavedUsersCallback) {
         localDataSource.getSavedUsers(callback)

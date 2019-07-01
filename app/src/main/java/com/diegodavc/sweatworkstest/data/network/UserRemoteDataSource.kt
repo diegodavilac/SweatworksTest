@@ -6,6 +6,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 
 class UserRemoteDataSource(val services: Services) : UserDataSource {
 
+    override fun isSavedUser(email: String, callback: UserDataSource.LoadSavedUsersCallback) {
+
+    }
+
+    override fun getSuggestions(query: String, callback: UserDataSource.LoadSuggestionCallback) {
+
+    }
+
     override fun getSavedUsers(callback: UserDataSource.LoadSavedUsersCallback) {
 
     }

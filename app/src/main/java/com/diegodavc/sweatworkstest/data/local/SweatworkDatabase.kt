@@ -19,7 +19,7 @@ abstract class SweatworkDatabase : RoomDatabase() {
             synchronized(lock) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.applicationContext,
-                        SweatworkDatabase::class.java, "SweatworkDatabase.db")
+                        SweatworkDatabase::class.java, "SweatworkDatabase")
                         .build()
                 }
                 return INSTANCE!!

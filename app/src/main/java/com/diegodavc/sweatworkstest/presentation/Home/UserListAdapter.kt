@@ -7,12 +7,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.diegodavc.sweatworkstest.R
 import com.diegodavc.sweatworkstest.data.model.User
+import com.diegodavc.sweatworkstest.data.network.model.UserResponse
 import com.diegodavc.sweatworkstest.utils.inflate
 import kotlinx.android.synthetic.main.item_grid.view.*
 
-class UserListAdapter(val listener: (User) -> Unit) : RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
+class UserListAdapter(val listener: (UserResponse) -> Unit) : RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
 
-    var data : MutableList<User> = mutableListOf()
+    var data : MutableList<UserResponse> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder
             = UserViewHolder(parent.inflate(R.layout.item_grid))
@@ -26,14 +27,14 @@ class UserListAdapter(val listener: (User) -> Unit) : RecyclerView.Adapter<UserL
         holder.bind(user, listener)
     }
 
-    fun addUsers(users : List<User>){
+    fun addUsers(users : List<UserResponse>){
         data.addAll(users)
         notifyDataSetChanged()
     }
 
 
     class UserViewHolder(view : View): RecyclerView.ViewHolder(view){
-        fun bind(user : User , listener: (User) -> Unit) = with(itemView){
+        fun bind(user : UserResponse , listener: (UserResponse) -> Unit) = with(itemView){
 
             itemView.card.setOnClickListener { listener(user) }
 
