@@ -20,17 +20,21 @@ import com.diegodavc.sweatworkstest.data.network.model.UserResponse
 import com.diegodavc.sweatworkstest.presentation.UserDetail.UserDetailActivity
 import com.diegodavc.sweatworkstest.utils.LoadMoreListener
 import com.diegodavc.sweatworkstest.utils.OnScrollLoadMore
+import com.diegodavc.sweatworkstest.utils.showLoader
 import com.google.gson.Gson
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.toolbar
+import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity(), LoadMoreListener, HomeContract.View{
+class MainActivity : DaggerAppCompatActivity(), LoadMoreListener, HomeContract.View{
 
     private var searchView: SearchView?  = null
     private var mainAdapter: UserListAdapter? = null
     private var savedAdapter : SavedUserListAdapter? = null
-    private lateinit var presenter: HomePresenter
+
+    @Inject lateinit var presenter: HomeContract.Presenter
 
     private val onQueryTextListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(search: String): Boolean {
@@ -54,8 +58,14 @@ class MainActivity : AppCompatActivity(), LoadMoreListener, HomeContract.View{
 
         bindView()
 
-        presenter = HomePresenter(UserRepository(App.database.userDAO(), App.services), this)
+        presenter.setView(this)
+        v_progress.showLoader(true)
         presenter.getUsers()
+    }
+
+    override fun onDestroy() {
+        presenter.dropView()
+        super.onDestroy()
     }
 
     override fun onResume() {
@@ -107,11 +117,13 @@ class MainActivity : AppCompatActivity(), LoadMoreListener, HomeContract.View{
     }
 
     override fun loadMoreElements() {
+        v_progress.showLoader(true)
         presenter.getUsers()
 
     }
 
     override fun loadUsers(users: List<UserResponse>) {
+        v_progress.showLoader(false)
         mainAdapter?.addUsers(users)
     }
 

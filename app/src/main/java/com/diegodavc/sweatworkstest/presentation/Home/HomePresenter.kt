@@ -7,21 +7,36 @@ import com.diegodavc.sweatworkstest.data.UserRepository
 import com.diegodavc.sweatworkstest.data.model.Info
 import com.diegodavc.sweatworkstest.data.model.User
 import com.diegodavc.sweatworkstest.data.network.model.UserResponse
+import com.diegodavc.sweatworkstest.presentation.BasePresenter
+import com.diegodavc.sweatworkstest.utils.PreferencesUtil
+import javax.inject.Inject
 
-class HomePresenter(val repository: UserRepository,val view: HomeContract.View) : HomeContract.Presenter{
+class HomePresenter @Inject constructor( val repository: UserRepository) :BasePresenter<HomeContract.View>, HomeContract.Presenter{
+
+    override fun setView(view: HomeContract.View) {
+        this.view = view
+    }
+
+    override fun dropView() {
+        this.view = null
+    }
 
     var pageNumber : Int = 0
 
+    private var view : HomeContract.View? = null
+
+    @Inject lateinit var mPreferences : PreferencesUtil
+
     override fun getUsers() {
-        val seed = App.mPreferences.getSeed()
+        val seed = mPreferences.getSeed()
         repository.getUsers(seed, pageNumber, object : UserDataSource.LoadUsersCallback {
             override fun onUsersLoaded(users: List<UserResponse>) {
-                view.loadUsers(users)
+                view?.loadUsers(users)
             }
 
             override fun onSeedReceived(info: Info) {
                 if (seed.isEmpty()){
-                    App.mPreferences.saveSeed(info.seed)
+                    mPreferences.saveSeed(info.seed)
                 }
 
                 pageNumber = info.page +1
@@ -39,7 +54,7 @@ class HomePresenter(val repository: UserRepository,val view: HomeContract.View) 
     override fun deleteAll() {
         repository.deleteAllUsers(object : UserDataSource.DeleteUserCallback{
             override fun onDelete() {
-                view.hideSavedUser()
+                view?.hideSavedUser()
             }
         })
     }
@@ -47,11 +62,11 @@ class HomePresenter(val repository: UserRepository,val view: HomeContract.View) 
     override fun getSavedUsers() {
         repository.getSavedUsers(object : UserDataSource.LoadSavedUsersCallback{
             override fun onUsersLoaded(users: List<User>) {
-                view.loadSavedUsers(users)
+                view?.loadSavedUsers(users)
             }
 
             override fun onDataNotAvailable() {
-                view.hideSavedUser()
+                view?.hideSavedUser()
             }
         })
     }
@@ -59,7 +74,7 @@ class HomePresenter(val repository: UserRepository,val view: HomeContract.View) 
     override fun getSuggestions(query: String) {
         repository.getSuggestions(query, object : UserDataSource.LoadSuggestionCallback{
             override fun onUsersLoaded(users: Cursor) {
-                view.loadSuggestions(users)
+                view?.loadSuggestions(users)
             }
         })
     }

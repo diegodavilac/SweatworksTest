@@ -5,9 +5,11 @@ import com.diegodavc.sweatworkstest.data.model.User
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
+import javax.inject.Singleton
 
-
-class UserLocalDataSource (val userDAO: UserDAO): UserDataSource{
+@Singleton
+class UserLocalDataSource @Inject constructor (val userDAO: UserDAO): UserDataSource{
 
     override fun isSavedUser(email: String, callback: UserDataSource.LoadSavedUsersCallback) {
         userDAO.isSavedUser(email)

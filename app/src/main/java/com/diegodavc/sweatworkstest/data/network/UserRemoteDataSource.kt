@@ -3,8 +3,11 @@ package com.diegodavc.sweatworkstest.data.network
 import com.diegodavc.sweatworkstest.data.UserDataSource
 import com.diegodavc.sweatworkstest.data.model.User
 import io.reactivex.android.schedulers.AndroidSchedulers
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserRemoteDataSource(val services: Services) : UserDataSource {
+@Singleton
+class UserRemoteDataSource @Inject constructor(val services: Services) : UserDataSource {
 
     override fun isSavedUser(email: String, callback: UserDataSource.LoadSavedUsersCallback) {
 
