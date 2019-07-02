@@ -30,12 +30,12 @@ class UserRepositoryModule {
     @Singleton
     @Provides
     @Local
-    fun provideUserLocalDataSource(userDAO: UserDAO): UserDataSource = UserLocalDataSource(userDAO)
+    fun provideUserLocalDataSource(userDAO: UserDAO): UserLocalDataSource = UserLocalDataSource(userDAO)
 
     @Singleton
     @Provides
     @Remote
-    fun provideUserRemoteDataSource(services: Services): UserDataSource = UserRemoteDataSource(services)
+    fun provideUserRemoteDataSource(services: Services): UserRemoteDataSource = UserRemoteDataSource(services)
 
     @Singleton
     @Provides

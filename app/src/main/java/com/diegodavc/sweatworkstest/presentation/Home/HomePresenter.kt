@@ -10,7 +10,7 @@ import com.diegodavc.sweatworkstest.data.network.model.UserResponse
 import com.diegodavc.sweatworkstest.presentation.BasePresenter
 import javax.inject.Inject
 
-class HomePresenter @Inject constructor(private val repository: UserRepository) :BasePresenter<HomeContract.View>, HomeContract.Presenter{
+class HomePresenter @Inject constructor( val repository: UserRepository) :BasePresenter<HomeContract.View>, HomeContract.Presenter{
 
     override fun setView(view: HomeContract.View) {
         this.view = view

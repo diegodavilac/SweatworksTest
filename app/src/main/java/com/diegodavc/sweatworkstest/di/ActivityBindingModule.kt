@@ -10,9 +10,11 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ActivityBindingModule {
 
+    @ActivityScoped
     @ContributesAndroidInjector(modules = [HomeModule::class])
     abstract fun homeActivity(): MainActivity
 
+    @ActivityScoped
     @ContributesAndroidInjector(modules = [UserDetailModule::class])
     abstract fun userDetailActivity(): UserDetailActivity
 

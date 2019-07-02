@@ -6,7 +6,7 @@ import com.diegodavc.sweatworkstest.data.model.User
 import com.diegodavc.sweatworkstest.presentation.BasePresenter
 import javax.inject.Inject
 
-class DetailsPresenter @Inject constructor(private val repository: UserRepository)
+class DetailsPresenter @Inject constructor(val repository: UserRepository)
     : BasePresenter<DetailContract.View>,
     DetailContract.Presenter {
 

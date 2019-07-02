@@ -1,9 +1,7 @@
 package com.diegodavc.sweatworkstest.data
 
-import com.diegodavc.sweatworkstest.data.local.UserDAO
 import com.diegodavc.sweatworkstest.data.local.UserLocalDataSource
 import com.diegodavc.sweatworkstest.data.model.User
-import com.diegodavc.sweatworkstest.data.network.Services
 import com.diegodavc.sweatworkstest.data.network.UserRemoteDataSource
 import com.diegodavc.sweatworkstest.di.Local
 import com.diegodavc.sweatworkstest.di.Remote
