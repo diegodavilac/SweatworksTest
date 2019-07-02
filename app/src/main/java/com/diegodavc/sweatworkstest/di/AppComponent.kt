@@ -17,8 +17,6 @@ import javax.inject.Singleton
                             AndroidSupportInjectionModule::class))
 interface AppComponent : AndroidInjector<App>{
 
-    fun getUserRepository() : UserRepository
-
     @Component.Builder
     interface Builder{
 

@@ -20,6 +20,7 @@ import com.diegodavc.sweatworkstest.data.network.model.UserResponse
 import com.diegodavc.sweatworkstest.presentation.UserDetail.UserDetailActivity
 import com.diegodavc.sweatworkstest.utils.LoadMoreListener
 import com.diegodavc.sweatworkstest.utils.OnScrollLoadMore
+import com.diegodavc.sweatworkstest.utils.showLoader
 import com.google.gson.Gson
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -58,6 +59,7 @@ class MainActivity : DaggerAppCompatActivity(), LoadMoreListener, HomeContract.V
         bindView()
 
         presenter.setView(this)
+        v_progress.showLoader(true)
         presenter.getUsers()
     }
 
@@ -115,11 +117,13 @@ class MainActivity : DaggerAppCompatActivity(), LoadMoreListener, HomeContract.V
     }
 
     override fun loadMoreElements() {
+        v_progress.showLoader(true)
         presenter.getUsers()
 
     }
 
     override fun loadUsers(users: List<UserResponse>) {
+        v_progress.showLoader(false)
         mainAdapter?.addUsers(users)
     }
 
