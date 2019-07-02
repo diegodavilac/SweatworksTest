@@ -5,14 +5,16 @@ import com.diegodavc.sweatworkstest.data.local.UserLocalDataSource
 import com.diegodavc.sweatworkstest.data.model.User
 import com.diegodavc.sweatworkstest.data.network.Services
 import com.diegodavc.sweatworkstest.data.network.UserRemoteDataSource
+import com.diegodavc.sweatworkstest.di.Local
+import com.diegodavc.sweatworkstest.di.Remote
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserRepository(
-     userDAO: UserDAO,
-     services: Services
+@Singleton
+class UserRepository @Inject constructor(
+    @Local val localDataSource: UserLocalDataSource,
+    @Remote val remoteDataSource: UserRemoteDataSource
 ) : UserDataSource {
-
-    private val localDataSource: UserLocalDataSource = UserLocalDataSource(userDAO)
-    private val remoteDataSource: UserRemoteDataSource = UserRemoteDataSource(services)
 
     override fun isSavedUser(email: String, callback: UserDataSource.LoadSavedUsersCallback) {
         localDataSource.isSavedUser(email, callback)

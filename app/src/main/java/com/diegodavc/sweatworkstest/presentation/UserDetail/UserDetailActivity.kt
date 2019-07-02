@@ -12,15 +12,18 @@ import com.diegodavc.sweatworkstest.data.UserRepository
 import com.diegodavc.sweatworkstest.data.model.User
 import com.diegodavc.sweatworkstest.utils.loadImage
 import com.google.gson.Gson
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_user_detail.*
 import kotlinx.android.synthetic.main.toolbar.*
+import javax.inject.Inject
 
-class UserDetailActivity : AppCompatActivity(), DetailContract.View {
+class UserDetailActivity : DaggerAppCompatActivity(), DetailContract.View {
 
     private lateinit var user: User
     private var fromDb: Boolean = false
     private var favoriteItem: MenuItem? = null
-    private lateinit var presenter: DetailsPresenter
+
+    @Inject lateinit var presenter: DetailContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +38,16 @@ class UserDetailActivity : AppCompatActivity(), DetailContract.View {
         }
 
         bindUser()
+    }
 
-        presenter = DetailsPresenter(UserRepository(App.database.userDAO(), App.services), this)
+    override fun onResume() {
+        super.onResume()
+        presenter.setView(this)
+    }
+
+    override fun onDestroy() {
+        presenter.dropView()
+        super.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
