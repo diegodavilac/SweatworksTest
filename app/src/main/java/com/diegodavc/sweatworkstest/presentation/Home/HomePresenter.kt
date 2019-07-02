@@ -8,6 +8,7 @@ import com.diegodavc.sweatworkstest.data.model.Info
 import com.diegodavc.sweatworkstest.data.model.User
 import com.diegodavc.sweatworkstest.data.network.model.UserResponse
 import com.diegodavc.sweatworkstest.presentation.BasePresenter
+import com.diegodavc.sweatworkstest.utils.PreferencesUtil
 import javax.inject.Inject
 
 class HomePresenter @Inject constructor( val repository: UserRepository) :BasePresenter<HomeContract.View>, HomeContract.Presenter{
@@ -24,9 +25,10 @@ class HomePresenter @Inject constructor( val repository: UserRepository) :BasePr
 
     private var view : HomeContract.View? = null
 
+    @Inject lateinit var mPreferences : PreferencesUtil
 
     override fun getUsers() {
-        val seed = App.mPreferences.getSeed()
+        val seed = mPreferences.getSeed()
         repository.getUsers(seed, pageNumber, object : UserDataSource.LoadUsersCallback {
             override fun onUsersLoaded(users: List<UserResponse>) {
                 view?.loadUsers(users)
@@ -34,7 +36,7 @@ class HomePresenter @Inject constructor( val repository: UserRepository) :BasePr
 
             override fun onSeedReceived(info: Info) {
                 if (seed.isEmpty()){
-                    App.mPreferences.saveSeed(info.seed)
+                    mPreferences.saveSeed(info.seed)
                 }
 
                 pageNumber = info.page +1

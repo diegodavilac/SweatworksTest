@@ -1,22 +1,15 @@
 package com.diegodavc.sweatworkstest.utils
 
-import android.content.Context
-import android.content.SharedPreferences
 
-class PreferencesUtil(context: Context){
-    private val SHARED_PREFERENCES = "SWEATWORKS_TEST"
+import android.content.SharedPreferences
+import javax.inject.Inject
+
+class PreferencesUtil @Inject constructor(val mPreferences: SharedPreferences){
+    companion object{
+        const val SHARED_PREFERENCES = "SWEATWORKS_TEST"
+    }
     private val SEED = "seed"
 
-    companion object{
-        lateinit var self: PreferencesUtil
-    }
-
-    private var mPreferences: SharedPreferences
-
-    init {
-        mPreferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
-        self = this
-    }
 
     fun getSeed() : String
         = mPreferences.getString(SEED, "")!!
